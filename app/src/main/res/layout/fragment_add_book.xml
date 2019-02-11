@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center"
+                  android:gravity="center"
+                  android:orientation="vertical"
+                  android:background="@android:color/white"
+    android:layout_centerInParent="true">
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/title_textLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/title_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Log Book Title"
+                android:textColorHint="@color/colorPrimary"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/create_book_button"
+    android:text="Create Log Book"
+    android:layout_margin="10dp"/>
+    </LinearLayout>
+
+    <ProgressBar android:layout_width="20dp" android:layout_height="20dp" android:id="@+id/progress_bar" android:layout_centerInParent="true"
+    android:visibility="gone"/>
+</RelativeLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical">
+
+    <RelativeLayout
+            android:id="@+id/container_layout"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical"
+            android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp">
+    <TextView
+
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/logEntry_title"
+            android:text="Title"
+            android:ellipsize="end"
+            android:layout_marginRight="25dp"
+            android:maxLines="1"
+            android:textSize="20sp"/>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/logEntry_description"
+              android:layout_below="@id/logEntry_title"
+              android:maxLines="2"
+              android:ellipsize="end"
+              android:textSize="16sp"
+              android:layout_marginRight="25dp"
+              android:text="Description"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/date"
+                  android:layout_below="@id/logEntry_description"
+                  android:text="25 Feb"
+                  android:textSize="14sp"
+                  android:layout_gravity="right"/>
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:id="@+id/more_action_view"
+                   android:layout_marginTop="5dp"
+        app:srcCompat="@drawable/ic_baseline_more_vert_24px"/>
+    </RelativeLayout>
+</LinearLayout>

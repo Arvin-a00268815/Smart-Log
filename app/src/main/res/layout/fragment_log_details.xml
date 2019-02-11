@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/appbar"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24px"
+                app:contentInsetStartWithNavigation="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetLeft="0dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:textColor="@android:color/white"
+                          android:textStyle="bold"
+                          android:id="@+id/toolbar_title"
+                          android:textSize="18sp"
+                          android:layout_weight="1"
+                          android:text="SmartLog"/>
+
+                <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
+                           android:foregroundGravity="right"
+                           android:id="@+id/delete_log"
+                           app:srcCompat="@drawable/ic_baseline_delete_24px"
+                           android:layout_marginRight="10dp"/>
+
+
+                <ImageView android:layout_width="wrap_content" android:layout_height="match_parent"
+                           android:foregroundGravity="right"
+                           android:id="@+id/edit_log"
+                           android:layout_marginLeft="10dp"
+                           app:srcCompat="@drawable/ic_baseline_edit_24px"
+                           android:layout_marginRight="10dp"/>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_below="@+id/appbar"
+                  android:padding="10dp"
+                  android:background="@android:color/white">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Log Book"
+                  android:padding="20dp"
+                  android:textSize="16sp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/logBook_title_content"
+                  android:padding="20dp"
+                  android:textSize="20sp"
+                  android:textColor="@android:color/black"
+                  android:text="-"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Title"
+                  android:padding="20dp"
+                  android:textSize="16sp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/title"
+                  android:padding="20dp"
+                  android:textSize="20sp"
+                  android:textColor="@android:color/black"
+                  android:text="-"/>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:text="Description"
+                  android:textSize="16sp"
+                  android:padding="20dp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/description"
+                  android:text=""
+                  android:textColor="@android:color/black"
+                  android:textSize="20sp"
+                  android:padding="20dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/dateButton"
+                    android:layout_weight="1"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/timeButton"
+                    android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/imageView" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>
