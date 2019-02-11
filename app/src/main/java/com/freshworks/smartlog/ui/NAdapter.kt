@@ -15,6 +15,7 @@ import com.freshworks.smartlog.database.entity.LogBook
 import com.freshworks.smartlog.database.entity.LogEntry
 import kotlinx.android.synthetic.main.row_log_book_item.view.*
 import kotlinx.android.synthetic.main.row_log_entry_item.view.*
+import kotlinx.android.synthetic.main.row_log_move_item.view.*
 
 
 class NAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -66,6 +67,14 @@ class NAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     }
 
+    class LogBookTypeViewHolder(view: View) : RecyclerView.ViewHolder(view){
+
+        val logBookDate = view.book_date as TextView
+        val logBookTitle = view.book_title as TextView
+        val parentContainer = view.parent_container as LinearLayout
+
+    }
+
 
     override fun getItemViewType(position: Int): Int {
         val type = arraylist[position]
@@ -82,7 +91,7 @@ class NAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         if(viewType == 2){
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.row_log_move_item, parent, false)
-            return LogBookViewHolder(view)
+            return LogBookTypeViewHolder(view)
 
         } else if(viewType == 1) {
             val view = LayoutInflater.from(parent.context)
@@ -106,11 +115,11 @@ class NAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
         when(getItemViewType(position)) {
             2 ->{
-                val logBookViewHolder = holder as LogBookViewHolder
+                val logBookTypeViewHolder = holder as LogBookTypeViewHolder
                 val logBook = arraylist[position] as LogBook
-                logBookViewHolder.logBookTitle.text = logBook.title
-                logBookViewHolder.logBookDate.text = logBook.createdTime
-                logBookViewHolder.cardView.setOnClickListener {
+                logBookTypeViewHolder.logBookTitle.text = logBook.title
+                logBookTypeViewHolder.logBookDate.text = logBook.createdTime
+                logBookTypeViewHolder.parentContainer.setOnClickListener {
                     logMoveListener?.moveLogToThisBook(logBook)
 
                 }
