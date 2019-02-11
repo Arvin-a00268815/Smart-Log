@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.row_log_entry_item.view.*
 import kotlinx.android.synthetic.main.row_log_move_item.view.*
 
 
-class NAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class NewListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
     var arraylist = ArrayList<Any?>()

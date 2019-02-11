@@ -6,8 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import android.widget.Toast
 import com.freshworks.smartlog.R
+import com.freshworks.smartlog.Util
 import com.freshworks.smartlog.database.entity.LogBook
+import com.freshworks.smartlog.database.entity.LogEntry
 import com.freshworks.smartlog.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -31,10 +34,15 @@ open class LogBooksFragment : ParentFragment() {
             adapter.clear()
             adapter.addAll(it as ArrayList<LogBook>)
             adapter.notifyDataSetChanged()
+            checkEmptyState()
+
         })
 
-
-        val cal = Calendar.getInstance()
+        viewModel.onDeleteBook().observe(this, android.arch.lifecycle.Observer {
+            adapter.removeAt(it!!)
+            adapter.notifyItemRemoved(it)
+            checkEmptyState()
+        })
 
 
         fab.setOnClickListener {
@@ -44,9 +52,12 @@ open class LogBooksFragment : ParentFragment() {
             fragment.show(fragmentManager, "createbook")
         }
 
-        adapter.logBookListener = object : NAdapter.LogBookListener {
 
-            override fun deleteBook(logBook: LogBook) {
+        adapter.logBookListener = object : NewListAdapter.LogBookListener {
+
+            override fun deleteBook(logBook: LogBook, pos : Int) {
+                viewModel.deleteLogBook(logBook, pos)
+            }
 
             }
 
@@ -58,7 +69,7 @@ open class LogBooksFragment : ParentFragment() {
                 val bundle = Bundle()
                 bundle.putString("logBookTitle", logBookTitle)
                 fragment.arguments =  bundle
-                loadFragment(fragment, "entries")
+                (activity as MainActivity).loadFragment(fragment, "entries")
             }
 
         }
@@ -73,17 +84,12 @@ open class LogBooksFragment : ParentFragment() {
                 adapter.add(0, logBook)
                 adapter.notifyItemInserted(0)
                 recycler_view.scrollToPosition(0)
+                checkEmptyState()
 
             }
         }
     }
-    private fun loadFragment(fragment : Fragment, flag : String){
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        fragmentTransaction?.add(R.id.content_frame, fragment)
-        fragmentTransaction?.addToBackStack(flag)
-        fragmentTransaction?.commit()
-    }
+
 
 
 

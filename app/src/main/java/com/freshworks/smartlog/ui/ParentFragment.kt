@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.freshworks.smartlog.R
 import com.freshworks.smartlog.viewmodel.MainActivityViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
 /**
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_list.*
  */
 open class ParentFragment : Fragment() {
 
-    lateinit var adapter : NAdapter
+    lateinit var adapter : NewListAdapter
     lateinit var viewModel: MainActivityViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,9 +29,18 @@ open class ParentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler_view.layoutManager = LinearLayoutManager(context)
-        adapter = NAdapter()
+        adapter = NewListAdapter()
         recycler_view.adapter = adapter
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
+    }
+
+
+    fun checkEmptyState(){
+        if(adapter.itemCount == 0){
+            empty_state_layout.visibility = View.VISIBLE
+        }else{
+            empty_state_layout.visibility = View.GONE
+        }
     }
 }

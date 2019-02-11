@@ -190,11 +190,18 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         return filesLiveData
     }
 
-    fun deleteLogBook(logBook: LogBook) {
+    val deleteBookLiveData = MutableLiveData<Int>()
+    fun deleteLogBook(logBook: LogBook, pos : Int) {
         DatabaseAccess.getAppDatabase(getApplication()).bookDao().deleteLogBook(logBook)
+        deleteBookLiveData.postValue(pos)
+    }
+    fun onDeleteBook(): MutableLiveData<Int> {
+        return deleteBookLiveData
     }
 
-
+    fun generatePdf(logBook: LogBook){
+        DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogEntries(logBook.title)
+    }
 
     val deleteLogLiveData = MutableLiveData<Int>()
     fun deleteLog(logEntry: LogEntry, pos : Int) {

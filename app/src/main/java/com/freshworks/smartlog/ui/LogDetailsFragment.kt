@@ -32,11 +32,11 @@ class LogDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val key = arguments?.getLong("id")
+        val logId = arguments?.getLong("id")
 
         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         toolbar_title.text = "Log Details"
-        viewModel.getLogDetails(key!!).observe(this , Observer {
+        viewModel.getLogDetails(logId!!).observe(this , Observer {
             title.text = it!!.title
             description.text = it?.description
             val timeTemp = it?.dateTime.split(" ")
@@ -47,12 +47,12 @@ class LogDetailsFragment : Fragment() {
 
         })
 
-        viewModel.updateLogDetails().observe(this, Observer {
-            Log.e("updated", "=="+it!!.description)
-        })
+//        viewModel.updateLogDetails().observe(this, Observer {
+//            Log.e("updated", "=="+it!!.description)
+//        })
 
 
-        viewModel.getImageFiles(key).observe(this, Observer {
+        viewModel.getImageFiles(logId).observe(this, Observer {
             val list = it as ArrayList<LogAttachments>
 
             for (attachement in list ){
@@ -79,7 +79,7 @@ class LogDetailsFragment : Fragment() {
             bundle.putLong("logId" ,logEntry!!.logId)
             addFragment.arguments = bundle
 
-            loadFragment(addFragment, "addFragment")
+            (activity as MainActivity).loadFragment(addFragment, "addFragment")
         }
 
         toolbar.setNavigationOnClickListener {
@@ -88,13 +88,5 @@ class LogDetailsFragment : Fragment() {
 
     }
 
-
-    private fun loadFragment(fragment : Fragment, flag : String){
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        fragmentTransaction?.add(R.id.content_frame, fragment)
-        fragmentTransaction?.addToBackStack(flag)
-        fragmentTransaction?.commit()
-    }
 
 }

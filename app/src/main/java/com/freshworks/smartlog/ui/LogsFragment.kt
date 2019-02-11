@@ -4,7 +4,6 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -39,6 +38,7 @@ class LogsFragment : LogBooksFragment() {
             adapter.clear()
             adapter.addAll(it as ArrayList<LogEntry>)
             adapter.notifyDataSetChanged()
+            checkEmptyState()
 
         })
 
@@ -47,18 +47,20 @@ class LogsFragment : LogBooksFragment() {
             adapter.add(0, it)
             adapter.notifyItemInserted(0)
             recycler_view.scrollToPosition(0)
+            checkEmptyState()
 
         })
 
         viewModel.onDeleteLog().observe(this, Observer {
             adapter.removeAt(it!!)
             adapter.notifyItemRemoved(it)
+            checkEmptyState()
 
         })
 
 
 
-        adapter.logEntryListener = object : NAdapter.LogEntryListener {
+        adapter.logEntryListener = object : NewListAdapter.LogEntryListener {
 
             override fun showLogDetails(id : Long) {
 
@@ -67,12 +69,12 @@ class LogsFragment : LogBooksFragment() {
                 val bundle = Bundle()
                 bundle.putLong("id", id)
                 logDetailsfragment.arguments = bundle
-                loadFragment(logDetailsfragment, "logDetails")
+                (activity as MainActivity).loadFragment(logDetailsfragment, "logDetails")
             }
 
         }
 
-        adapter.actionsListener = object : NAdapter.ActionsListener{
+        adapter.actionsListener = object : NewListAdapter.ActionsListener{
             override fun edit(logEntry : LogEntry) {
                 val addFragment = EditLogEntryFragment()
                 addFragment.setTargetFragment(this@LogsFragment, 1111)
@@ -80,7 +82,7 @@ class LogsFragment : LogBooksFragment() {
                 bundle.putLong("logId" ,logEntry.logId)
                 addFragment.arguments = bundle
 
-                loadFragment(addFragment, "editLog")
+                (activity as MainActivity).loadFragment(addFragment, "editLog")
 
             }
 
@@ -108,7 +110,7 @@ class LogsFragment : LogBooksFragment() {
             bundle.putString("logBookTitle", logBookTitle)
             addLogEntryFragment.arguments = bundle
 
-            loadFragment(addLogEntryFragment, "addlog")
+            (activity as MainActivity).loadFragment(addLogEntryFragment, "addlog")
 
         }
 
@@ -119,13 +121,6 @@ class LogsFragment : LogBooksFragment() {
 
     }
 
-    private fun loadFragment(fragment : Fragment, flag : String){
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        fragmentTransaction?.add(R.id.content_frame, fragment)
-        fragmentTransaction?.addToBackStack(flag)
-        fragmentTransaction?.commit()
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK){
@@ -136,6 +131,7 @@ class LogsFragment : LogBooksFragment() {
                 adapter.add(0, logEntry)
                 adapter.notifyItemInserted(0)
                 recycler_view.scrollToPosition(0)
+                checkEmptyState()
             }else if( requestCode == 1222){
 
                 val pos = data!!.getIntExtra("pos", -1)

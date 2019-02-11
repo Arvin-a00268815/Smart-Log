@@ -34,7 +34,7 @@ class MoveLogFragment : BottomSheetDialogFragment(){
         logEntry = arguments!!.getSerializable("logEntry")  as LogEntry
         pos = arguments!!.getInt("pos")
         recycler_view.layoutManager = LinearLayoutManager(context)
-        val adapter = NAdapter()
+        val adapter = NewListAdapter()
         adapter.isMoveOperation = true
         recycler_view.adapter = adapter
         val dividerDecoration = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
@@ -60,7 +60,7 @@ class MoveLogFragment : BottomSheetDialogFragment(){
             dismiss()
         })
 
-        adapter.logMoveListener = object : NAdapter.LogMoveListener {
+        adapter.logMoveListener = object : NewListAdapter.LogMoveListener {
             override fun moveLogToThisBook(logBook: LogBook) {
 
                 view.progress_bar.visibility = View.VISIBLE
