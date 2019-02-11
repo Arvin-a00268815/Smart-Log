@@ -2,14 +2,17 @@ package com.freshworks.smartlog.ui
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.freshworks.smartlog.R
 import com.freshworks.smartlog.database.entity.LogAttachments
 import com.freshworks.smartlog.database.entity.LogEntry
@@ -68,7 +71,9 @@ class LogDetailsFragment : Fragment() {
         })
 
         delete_log.setOnClickListener {
-            viewModel.deleteLog(logEntry!!, -1)
+
+            openAlertDialog()
+
         }
 
         edit_log.setOnClickListener {
@@ -86,6 +91,17 @@ class LogDetailsFragment : Fragment() {
             activity!!.onBackPressed()
         }
 
+    }
+
+    fun openAlertDialog(){
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setMessage("Are you sure you want to delete?")
+        builder.setPositiveButton("Yes") { p0, p1 ->
+            viewModel.deleteLog(logEntry!!, -1)
+            Toast.makeText(context, "Deleted successfully", Toast.LENGTH_LONG).show()
+        }
+        builder.setNegativeButton("No", null)
+        builder.show()
     }
 
 

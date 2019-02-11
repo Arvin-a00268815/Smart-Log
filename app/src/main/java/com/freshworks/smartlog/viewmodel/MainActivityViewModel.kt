@@ -199,9 +199,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         return deleteBookLiveData
     }
 
-    fun generatePdf(logBook: LogBook){
-        DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogEntries(logBook.title)
-    }
 
     val deleteLogLiveData = MutableLiveData<Int>()
     fun deleteLog(logEntry: LogEntry, pos : Int) {

@@ -1,20 +1,25 @@
 package com.freshworks.smartlog.ui
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.freshworks.smartlog.R
 import com.freshworks.smartlog.Util
 import com.freshworks.smartlog.database.entity.LogBook
 import com.freshworks.smartlog.database.entity.LogEntry
-import com.freshworks.smartlog.viewmodel.MainActivityViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import io.reactivex.Completable
+import io.reactivex.CompletableObserver
+import io.reactivex.Maybe
+import io.reactivex.MaybeObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_list.*
-import java.util.*
+import java.util.concurrent.Callable
 import kotlin.collections.ArrayList
 
 
@@ -28,7 +33,7 @@ open class LogBooksFragment : ParentFragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val type = arguments?.getString("type")
-        toolbar_title.text = type
+        toolbar_title.setText(type)
 
         viewModel.getLogBooks().observe(this, android.arch.lifecycle.Observer {
             adapter.clear()
@@ -44,6 +49,19 @@ open class LogBooksFragment : ParentFragment() {
             checkEmptyState()
         })
 
+        swipe_refresh.setOnRefreshListener {
+            viewModel.getLogBooks().observe(this, android.arch.lifecycle.Observer {
+                adapter.clear()
+                adapter.addAll(it as ArrayList<LogBook>)
+                adapter.notifyDataSetChanged()
+                checkEmptyState()
+                swipe_refresh.isRefreshing = false
+
+
+            })
+
+        }
+
 
         fab.setOnClickListener {
 
@@ -56,11 +74,27 @@ open class LogBooksFragment : ParentFragment() {
         adapter.logBookListener = object : NewListAdapter.LogBookListener {
 
             override fun deleteBook(logBook: LogBook, pos : Int) {
-                viewModel.deleteLogBook(logBook, pos)
+                openAlertDialog(logBook, pos)
             }
 
-            }
+            override fun saveAsPDF(logBook: LogBook, pos: Int) {
 
+
+                viewModel.getLogEntries(logBook.title).observe(this@LogBooksFragment, Observer {
+
+                    Util.createPdf(logBook.title)
+                    val hyphen = "--"
+                    for (logEntry in it as ArrayList<LogEntry>){
+                        val para = hyphen.plus(logEntry.title).plus("\n---").plus(logEntry.description).plus(" ").plus(logEntry.dateTime)
+
+                        Util.addContent(para)
+                    }
+                    Util.endContent()
+                    Util.openFile(activity!!, logBook.title)
+
+                })
+
+            }
 
 
             override fun showLogEntries(logBookTitle : String) {
@@ -88,6 +122,17 @@ open class LogBooksFragment : ParentFragment() {
 
             }
         }
+    }
+
+    fun openAlertDialog(logBook: LogBook, pos :Int){
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setMessage("Are you sure you want to delete?")
+        builder.setPositiveButton("Yes") { p0, p1 ->
+            viewModel.deleteLogBook(logBook, pos)
+            Toast.makeText(context, "Deleted successfully", Toast.LENGTH_LONG).show()
+        }
+        builder.setNegativeButton("No", null)
+        builder.show()
     }
 
 

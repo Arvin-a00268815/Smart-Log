@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.freshworks.smartlog.database.entity.LogEntry
@@ -22,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_add_log_entry.*
  */
 class EditLogEntryFragment : AddLogEntryFragment() {
 
-    var logEntry : LogEntry ? = null
+    var logEntry: LogEntry? = null
 
     var year = 0
     var month = 0
@@ -40,7 +39,7 @@ class EditLogEntryFragment : AddLogEntryFragment() {
         var createdTime = 0L
         viewModel.getLogDetails(logId!!).observe(this, Observer {
             logEntry = it
-            title_editText.setText( it!!.title)
+            title_editText.setText(it!!.title)
             description_editText.setText(it.description)
 
             createdTime = it.createdTime
@@ -87,55 +86,52 @@ class EditLogEntryFragment : AddLogEntryFragment() {
 
             val title = title_editText.text.toString()
             val desc = description_editText.text.toString()
-            if(title_editText.length() > 0) {
+            if (title_editText.length() > 0) {
                 progress_bar.visibility = View.VISIBLE
                 title_textLayout.error = ""
-
-
+                
                 logEntry!!.title = title
                 logEntry!!.description = desc
+
                 viewModel.getDate(year, month, day, hour, minute).observe(this, Observer {
 
                     logEntry!!.createdTime = it as Long
-                    Log.e("it", "=" + logEntry!!.createdTime)
+
+                    Completable.fromAction {
+
+                        viewModel.updateLogDetails(logEntry!!)
+
+                    }.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(object : CompletableObserver {
+                            override fun onComplete() {
+                                progress_bar.visibility = View.GONE
+                                Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show()
+                            }
 
 
-                Completable.fromAction {
+                            override fun onSubscribe(d: Disposable) {
 
-                    viewModel.updateLogDetails(logEntry!!)
+                            }
 
-                }.observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(object : CompletableObserver {
-                        override fun onComplete() {
-                            progress_bar.visibility = View.GONE
-                            Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show()
-                        }
+                            override fun onError(e: Throwable) {
+                                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                            }
 
+                        })
+                })
 
-                        override fun onSubscribe(d: Disposable) {
-
-                        }
-
-                        override fun onError(e: Throwable) {
-                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                        }
-
-                    })
-            })
-
-            }else{
+            } else {
                 title_textLayout.error = "Please enter title"
             }
         }
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 1001 -> {
                     year = data!!.getIntExtra("year", 2000)
                     month = data.getIntExtra("month", 2000)
@@ -143,9 +139,9 @@ class EditLogEntryFragment : AddLogEntryFragment() {
 
                 }
 
-                1002 ->{
-                    hour = data!!.getIntExtra("hour",1)
-                    minute = data.getIntExtra("minute",0)
+                1002 -> {
+                    hour = data!!.getIntExtra("hour", 1)
+                    minute = data.getIntExtra("minute", 0)
 
                 }
             }

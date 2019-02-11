@@ -5,10 +5,12 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.freshworks.smartlog.R
 import com.freshworks.smartlog.database.entity.LogEntry
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -58,6 +60,17 @@ class LogsFragment : LogBooksFragment() {
 
         })
 
+        swipe_refresh.setOnRefreshListener {
+            viewModel.getLogEntries(logBookTitle).observe(this, android.arch.lifecycle.Observer {
+                adapter.clear()
+                adapter.addAll(it as ArrayList<LogEntry>)
+                adapter.notifyDataSetChanged()
+                checkEmptyState()
+
+            })
+            swipe_refresh.isRefreshing = false
+        }
+
 
 
         adapter.logEntryListener = object : NewListAdapter.LogEntryListener {
@@ -87,7 +100,7 @@ class LogsFragment : LogBooksFragment() {
             }
 
             override fun delete(logEntry : LogEntry, pos : Int) {
-                viewModel.deleteLog(logEntry, pos)
+                openAlertDialog(logEntry, pos)
             }
 
             override fun move(logEntry: LogEntry, pos : Int) {
@@ -151,6 +164,17 @@ class LogsFragment : LogBooksFragment() {
             return true
         }
         return false
+    }
+
+    fun openAlertDialog(logEntry : LogEntry, pos :Int){
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setMessage("Are you sure you want to delete?")
+        builder.setPositiveButton("Yes") { p0, p1 ->
+            viewModel.deleteLog(logEntry, pos)
+            Toast.makeText(context, "Deleted successfully", Toast.LENGTH_LONG).show()
+        }
+        builder.setNegativeButton("No", null)
+        builder.show()
     }
 
 
