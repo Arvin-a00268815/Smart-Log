@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">SmartLog</string>
     <string name="action_settings">Settings</string>
+
+    <string name="about_app">SmartLog is a simple mobile application that allows a user to record thoughts, ideas, reminders,
+        or anything they choose. Each entry includes a title and some text, as well as an optional image
+        or drawing. The user can collect these entries and convert them into a document that shows a
+        history or story.</string>
+
+    <string name="copyright_2019">&#169; 2019, Freshworks Studio</string>
+    <string name="link_content">Click here to see our other apps built by us!!"</string>
+    <string name="no_log_entries">No Log Entries Found</string>
+    <string name="no_logbooks_entries">No Logbooks Found</string>
 </resources>

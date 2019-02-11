@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="@android:color/white">
+    <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24px"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:contentInsetStart="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textColor="@android:color/white"
+                          android:textStyle="bold"
+                          android:id="@+id/toolbar_title"
+                          android:textSize="18sp"
+                          android:text="SmartLog"/>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="SMART LOG"
+                  android:layout_gravity="top|center"
+                  android:textSize="40sp"
+                  android:textStyle="italic"
+        android:gravity="top|center"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/about_app"
+        android:layout_margin="30dp"
+                  android:gravity="center"
+        android:textSize="20sp"/>
+
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/link_content"
+                  android:textColor="@android:color/holo_blue_light"
+                  android:id="@+id/link_view"
+                  android:layout_margin="20dp"/>
+
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Found a bug? or Would you like to share a feedback? Feel free to send us an email"
+                  android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="contact@freshworks.io"
+                  android:id="@+id/send_mail"
+                  android:textColor="@android:color/holo_blue_light"
+                  android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/copyright_2019"
+                  android:layout_margin="20dp"
+                  android:gravity="center"
+                  android:layout_gravity="bottom"
+                  android:textSize="16sp"/>
+
+
+
+
+
+    </LinearLayout>
+</RelativeLayout>

@@ -40,7 +40,7 @@ class NewListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     }
 
     interface ActionsListener{
-        fun edit(logEntry : LogEntry)
+        fun edit(logEntry : LogEntry, pos: Int)
         fun delete(logEntry : LogEntry, pos : Int)
         fun move(logEntry: LogEntry, pos : Int)
     }
@@ -148,7 +148,7 @@ class NewListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                             when (item.itemId) {
 
                                 com.freshworks.smartlog.R.id.edit -> {
-                                    actionsListener?.edit(logEntry)
+                                    actionsListener?.edit(logEntry, logEntryViewHolder.adapterPosition)
                                 }
 
 

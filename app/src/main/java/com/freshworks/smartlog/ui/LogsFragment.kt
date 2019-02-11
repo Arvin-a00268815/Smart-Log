@@ -23,12 +23,15 @@ class LogsFragment : LogBooksFragment() {
     var logBookTitle  = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        help.visibility = View.GONE
+        empty_textview.setText(R.string.no_log_entries)
         super.onViewCreated(view, savedInstanceState)
 
         logBookTitle = arguments?.getString("logBookTitle")!!
         toolbar_title.text = logBookTitle
         toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24px)
         toolbar.contentInsetStartWithNavigation = 0
+
 
 
         val dividerDecoration = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
@@ -88,14 +91,16 @@ class LogsFragment : LogBooksFragment() {
         }
 
         adapter.actionsListener = object : NewListAdapter.ActionsListener{
-            override fun edit(logEntry : LogEntry) {
-                val addFragment = EditLogEntryFragment()
-                addFragment.setTargetFragment(this@LogsFragment, 1111)
+
+            override fun edit(logEntry : LogEntry, pos : Int) {
+                val editLogFragment = EditLogEntryFragment()
+                editLogFragment.setTargetFragment(this@LogsFragment, 1111)
                 val bundle = Bundle()
                 bundle.putLong("logId" ,logEntry.logId)
-                addFragment.arguments = bundle
+                bundle.putInt("pos", pos)
+                editLogFragment.arguments = bundle
 
-                (activity as MainActivity).loadFragment(addFragment, "editLog")
+                (activity as MainActivity).loadFragment(editLogFragment, "editLog")
 
             }
 
@@ -150,6 +155,13 @@ class LogsFragment : LogBooksFragment() {
                 val pos = data!!.getIntExtra("pos", -1)
                 adapter.removeAt(pos)
                 adapter.notifyItemRemoved(pos)
+                checkEmptyState()
+            }else if( requestCode == 1111){ // edit
+
+                val pos = data!!.getIntExtra("pos", -1)
+                val logEntry = data!!.getSerializableExtra("logEntry")
+                adapter.arraylist.set(pos, logEntry)
+                adapter.notifyItemChanged(pos)
             }
 
         }

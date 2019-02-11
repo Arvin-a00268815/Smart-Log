@@ -1,8 +1,10 @@
 package com.freshworks.smartlog.ui
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -34,8 +36,9 @@ class LogDetailsFragment : Fragment() {
         return view
     }
 
+    var logId = 0L
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val logId = arguments?.getLong("id")
+         logId = arguments?.getLong("id")!!
 
         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         toolbar_title.text = "Log Details"
@@ -49,11 +52,6 @@ class LogDetailsFragment : Fragment() {
             logEntry = it
 
         })
-
-//        viewModel.updateLogDetails().observe(this, Observer {
-//            Log.e("updated", "=="+it!!.description)
-//        })
-
 
         viewModel.getImageFiles(logId).observe(this, Observer {
             val list = it as ArrayList<LogAttachments>
@@ -91,6 +89,21 @@ class LogDetailsFragment : Fragment() {
             activity!!.onBackPressed()
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 1111){
+            viewModel.getLogDetails(logId).observe(this , Observer {
+                title.text = it!!.title
+                description.text = it?.description
+                val timeTemp = it?.dateTime.split(" ")
+                dateButton.text = timeTemp[0]
+                timeButton.text = timeTemp[1]
+                logBook_title_content.text = it!!.logBookTitle
+                logEntry = it
+
+            })
+        }
     }
 
     fun openAlertDialog(){

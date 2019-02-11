@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.freshworks.smartlog.R
 import com.freshworks.smartlog.Util
 import com.freshworks.smartlog.database.entity.LogBook
 import com.freshworks.smartlog.database.entity.LogEntry
@@ -30,10 +31,13 @@ open class LogBooksFragment : ParentFragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+
+        empty_textview.setText(R.string.no_logbooks_entries)
         val type = arguments?.getString("type")
         toolbar_title.setText(type)
+        toolbar.setNavigationIcon(R.drawable.ic_outline_library_books_24px)
+        toolbar.contentInsetStartWithNavigation = 0
 
         viewModel.getLogBooks().observe(this, android.arch.lifecycle.Observer {
             adapter.clear()
@@ -106,6 +110,10 @@ open class LogBooksFragment : ParentFragment() {
                 (activity as MainActivity).loadFragment(fragment, "entries")
             }
 
+        }
+
+        help.setOnClickListener {
+            (activity as MainActivity).loadFragment(HelpFragment(), "help", true)
         }
     }
 

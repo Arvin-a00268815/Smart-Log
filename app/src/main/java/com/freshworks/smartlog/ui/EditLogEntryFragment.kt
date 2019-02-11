@@ -29,15 +29,18 @@ class EditLogEntryFragment : AddLogEntryFragment() {
     var hour = 0
     var minute = 0
 
+    var viewModel : MainActivityViewModel ? = null
+    var pos = -1
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val logId = arguments?.getLong("logId")
 
-        val viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        pos = arguments?.getInt("pos")!!
+         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
 
         toolbar_title.text = "Edit Log"
         var createdTime = 0L
-        viewModel.getLogDetails(logId!!).observe(this, Observer {
+        viewModel!!.getLogDetails(logId!!).observe(this, Observer {
             logEntry = it
             title_editText.setText(it!!.title)
             description_editText.setText(it.description)
@@ -48,7 +51,7 @@ class EditLogEntryFragment : AddLogEntryFragment() {
             timeButton.text = timeTemp[1]
 
 
-            viewModel.getDateTime(it.createdTime).observe(this, Observer {
+            viewModel!!.getDateTime(it.createdTime).observe(this, Observer {
 
                 year = it!![0].toInt()
                 month = it[1].toInt()
@@ -89,17 +92,17 @@ class EditLogEntryFragment : AddLogEntryFragment() {
             if (title_editText.length() > 0) {
                 progress_bar.visibility = View.VISIBLE
                 title_textLayout.error = ""
-                
+
                 logEntry!!.title = title
                 logEntry!!.description = desc
 
-                viewModel.getDate(year, month, day, hour, minute).observe(this, Observer {
+                viewModel!!.getDate(year, month, day, hour, minute).observe(this, Observer {
 
                     logEntry!!.createdTime = it as Long
 
                     Completable.fromAction {
 
-                        viewModel.updateLogDetails(logEntry!!)
+                        viewModel!!.updateLogDetails(logEntry!!)
 
                     }.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -107,6 +110,13 @@ class EditLogEntryFragment : AddLogEntryFragment() {
                             override fun onComplete() {
                                 progress_bar.visibility = View.GONE
                                 Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show()
+                                val intent = Intent()
+                                intent.putExtra("isUpdated", true)
+                                intent.putExtra("pos", pos)
+                                intent.putExtra("logEntry", logEntry)
+
+                                targetFragment!!.onActivityResult(1111, Activity.RESULT_OK, intent)
+                                activity!!.onBackPressed()
                             }
 
 
@@ -136,13 +146,13 @@ class EditLogEntryFragment : AddLogEntryFragment() {
                     year = data!!.getIntExtra("year", 2000)
                     month = data.getIntExtra("month", 2000)
                     day = data.getIntExtra("day", 2000)
-
+                    dateButton.text = year.toString().plus("-").plus(month + 1 ).plus("-").plus(day)
                 }
 
                 1002 -> {
                     hour = data!!.getIntExtra("hour", 1)
                     minute = data.getIntExtra("minute", 0)
-
+                    timeButton.text = hour.toString().plus(":").plus(minute).plus(":").plus("0")
                 }
             }
         }

@@ -14,7 +14,7 @@ import com.freshworks.smartlog.database.entity.LogEntry
  * Created by arvin-2009 on Feb 2019.
  */
 
-@Database(entities = [LogEntry::class, LogBook::class, LogAttachments::class], version = 8)
+@Database(entities = [LogEntry::class, LogBook::class, LogAttachments::class], version = 1)
 abstract class DatabaseAccess : RoomDatabase(){
 
 

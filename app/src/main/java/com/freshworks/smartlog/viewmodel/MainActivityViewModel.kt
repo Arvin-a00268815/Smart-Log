@@ -56,7 +56,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         return mutableLiveDataLogEntry
     }
 
-    fun updateLogDetails(): MutableLiveData<LogEntry> {
+    fun onUpdateLogDetails(): MutableLiveData<LogEntry> {
         return mutableLiveDataLogEntry
     }
 
