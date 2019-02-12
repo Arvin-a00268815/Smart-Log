@@ -23,12 +23,12 @@ and pdf conversion is done using iText library
 RecyclerView is used to list LogBooks and on selection of every logBook again a list of Log Entries are shown with title and 
 some description and date of creation.
 
-All the icons used are android default icons found in [](https://material.io/tools/icons/?style=baseline)
+All the icons used are android default icons found in [https://material.io/tools/icons/?style=baseline](https://material.io/tools/icons/?style=baseline)
 
 The database contains 3 tables ie LogBook, Log entry and Log attachments.
 
 Database architecture
-[](https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png)
+[https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png](https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png)
 
 
 
