@@ -1,6 +1,6 @@
 # Smart Log
 
-The development process includes the MVVM in which user interaction happens in the UI (View) and I have used a single activity 
+The development process begins with the MVVM pattern in which user interaction happens in the UI (View) and I have used a single activity 
 and only a single instance exists throughout the app and every page is a fragment. 
 
 The Database or the backend process is entirely done using ROOM arhitecture which can handle DB queries and it is 
@@ -26,6 +26,9 @@ some description and date of creation.
 All the icons used are android default icons found in [](https://material.io/tools/icons/?style=baseline)
 
 The database contains 3 tables ie LogBook, Log entry and Log attachments.
+
+Database architecture
+[](https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png)
 
 
 
