@@ -42,7 +42,7 @@ Database architecture
 If more time is available, 
 
 1. Removal and addition of more images can be done using recycler view with horizontal orientation 
-and which can provide easy navigation of immages and download option too.
+and which can provide easy navigation of images and download option too.
 
 2. Clip drawings created by user can be implemented
 
@@ -50,7 +50,7 @@ and which can provide easy navigation of immages and download option too.
 
 4. Only one attachment image can be shown in each row of the log entry
 
-5. Most of all, the cloud storage can be provide using Google's Firebase storage which requires some initially setup 
+5. Above all, the cloud storage can be provide using Google's Firebase cloud storage which requires some initially setup 
 and implementation
 
 ----------
