@@ -29,10 +29,12 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     private var liveDataLogId = MutableLiveData<Long>()
 
-    fun getLogBooks(): MutableLiveData<List<LogBook>> {
+    fun getLogBooks(){
 
         val list = DatabaseAccess.getAppDatabase(getApplication()).bookDao().getAllLogBooks()
         mutableLiveDataLogBooks.postValue(list)
+    }
+    fun onGetLogBooks(): MutableLiveData<List<LogBook>> {
         return mutableLiveDataLogBooks
     }
 
@@ -42,18 +44,32 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         mutableLiveDataLogBooks.postValue(list)
         return mutableLiveDataLogBooks
     }
-    fun getLogEntries(logBookTitle: String): MutableLiveData<List<LogEntry>> {
+    fun onGetLogEntries(): MutableLiveData<List<LogEntry>> {
+
+        return mutableLiveDataLogEntries
+    }
+    fun getLogEntries(logBookTitle: String){
 
         val list = DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogEntries(logBookTitle)
         mutableLiveDataLogEntries.postValue(list)
-        return mutableLiveDataLogEntries
     }
+    private val mutableLiveDataLogEntriesPdf = MutableLiveData<List<LogEntry>>()
+    fun onGetLogEntriesForPdf(): MutableLiveData<List<LogEntry>> {
 
-    fun getLogDetails(id: Long): MutableLiveData<LogEntry> {
+        return mutableLiveDataLogEntriesPdf
+    }
+    fun getLogEntriesForPdf(logBookTitle: String){
+
+        val list = DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogEntries(logBookTitle)
+        mutableLiveDataLogEntriesPdf.postValue(list)
+    }
+    fun onGetLogDetails(): MutableLiveData<LogEntry> {
+        return mutableLiveDataLogEntry
+    }
+    fun getLogDetails(id: Long){
 
         val logEntry = DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogDetails(id)
         mutableLiveDataLogEntry.postValue(logEntry)
-        return mutableLiveDataLogEntry
     }
 
     fun onUpdateLogDetails(): MutableLiveData<LogEntry> {

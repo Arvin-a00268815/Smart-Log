@@ -109,6 +109,9 @@ open class AddLogEntryFragment : Fragment() {
             openGallery()
 
         }
+        imageView.setOnClickListener {
+            openGallery()
+        }
     }
 
 
@@ -120,7 +123,7 @@ open class AddLogEntryFragment : Fragment() {
         intent.putExtra("title", "Select Images")
 // Mode 1 for both images and videos selection, 2 for images only and 3 for videos!
         intent.putExtra("mode", 2)
-        intent.putExtra("maxSelection", 5) // Optional
+        intent.putExtra("maxSelection", 1) // Optional
         startActivityForResult(intent, 1)
 
     }
@@ -132,6 +135,7 @@ open class AddLogEntryFragment : Fragment() {
 
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val selectionResult = data.getStringArrayListExtra("result")
+                fileUriList.clear()
                 selectionResult.forEach {
                     try {
 

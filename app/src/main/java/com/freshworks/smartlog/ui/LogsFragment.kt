@@ -39,13 +39,14 @@ class LogsFragment : LogBooksFragment() {
 
         recycler_view.addItemDecoration(dividerDecoration)
 
-        viewModel.getLogEntries(logBookTitle).observe(this, android.arch.lifecycle.Observer {
+        viewModel.onGetLogEntries().observe(this, android.arch.lifecycle.Observer {
             adapter.clear()
             adapter.addAll(it as ArrayList<LogEntry>)
             adapter.notifyDataSetChanged()
             checkEmptyState()
 
         })
+        viewModel.getLogEntries(logBookTitle)
 
         viewModel.onInsertLogEntry().observe(this, android.arch.lifecycle.Observer {
 
@@ -64,13 +65,7 @@ class LogsFragment : LogBooksFragment() {
         })
 
         swipe_refresh.setOnRefreshListener {
-            viewModel.getLogEntries(logBookTitle).observe(this, android.arch.lifecycle.Observer {
-                adapter.clear()
-                adapter.addAll(it as ArrayList<LogEntry>)
-                adapter.notifyDataSetChanged()
-                checkEmptyState()
-
-            })
+            viewModel.getLogEntries(logBookTitle)
             swipe_refresh.isRefreshing = false
         }
 
@@ -150,7 +145,7 @@ class LogsFragment : LogBooksFragment() {
                 adapter.notifyItemInserted(0)
                 recycler_view.scrollToPosition(0)
                 checkEmptyState()
-            }else if( requestCode == 1222){
+            }else if( requestCode == 1222){ // delete
 
                 val pos = data!!.getIntExtra("pos", -1)
                 adapter.removeAt(pos)

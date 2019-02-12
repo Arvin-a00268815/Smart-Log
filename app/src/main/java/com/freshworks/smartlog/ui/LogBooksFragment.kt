@@ -30,6 +30,8 @@ import kotlin.collections.ArrayList
 open class LogBooksFragment : ParentFragment() {
 
 
+    var pdfLogBookTitile = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,13 +41,14 @@ open class LogBooksFragment : ParentFragment() {
         toolbar.setNavigationIcon(R.drawable.ic_outline_library_books_24px)
         toolbar.contentInsetStartWithNavigation = 0
 
-        viewModel.getLogBooks().observe(this, android.arch.lifecycle.Observer {
+        viewModel.onGetLogBooks().observe(this, android.arch.lifecycle.Observer {
             adapter.clear()
             adapter.addAll(it as ArrayList<LogBook>)
             adapter.notifyDataSetChanged()
             checkEmptyState()
 
         })
+        viewModel.getLogBooks()
 
         viewModel.onDeleteBook().observe(this, android.arch.lifecycle.Observer {
             adapter.removeAt(it!!)
@@ -54,17 +57,11 @@ open class LogBooksFragment : ParentFragment() {
         })
 
         swipe_refresh.setOnRefreshListener {
-            viewModel.getLogBooks().observe(this, android.arch.lifecycle.Observer {
-                adapter.clear()
-                adapter.addAll(it as ArrayList<LogBook>)
-                adapter.notifyDataSetChanged()
-                checkEmptyState()
-                swipe_refresh.isRefreshing = false
 
-
-            })
-
+            viewModel.getLogBooks()
+            swipe_refresh.isRefreshing = false
         }
+
 
 
         fab.setOnClickListener {
@@ -75,6 +72,20 @@ open class LogBooksFragment : ParentFragment() {
         }
 
 
+        viewModel.onGetLogEntriesForPdf().observe(this@LogBooksFragment, Observer {
+
+            Util.createPdf(pdfLogBookTitile)
+            val hyphen = "--"
+            for (logEntry in it as ArrayList<LogEntry>){
+                val para = hyphen.plus(logEntry.title).plus("\n---").plus(logEntry.description).plus(" ").plus(logEntry.dateTime)
+
+                Util.addContent(para)
+            }
+            Util.endContent()
+            Util.openFile(activity!!, pdfLogBookTitile)
+
+        })
+
         adapter.logBookListener = object : NewListAdapter.LogBookListener {
 
             override fun deleteBook(logBook: LogBook, pos : Int) {
@@ -83,20 +94,8 @@ open class LogBooksFragment : ParentFragment() {
 
             override fun saveAsPDF(logBook: LogBook, pos: Int) {
 
-
-                viewModel.getLogEntries(logBook.title).observe(this@LogBooksFragment, Observer {
-
-                    Util.createPdf(logBook.title)
-                    val hyphen = "--"
-                    for (logEntry in it as ArrayList<LogEntry>){
-                        val para = hyphen.plus(logEntry.title).plus("\n---").plus(logEntry.description).plus(" ").plus(logEntry.dateTime)
-
-                        Util.addContent(para)
-                    }
-                    Util.endContent()
-                    Util.openFile(activity!!, logBook.title)
-
-                })
+                pdfLogBookTitile = logBook.title
+                viewModel.getLogEntriesForPdf(logBook.title)
 
             }
 

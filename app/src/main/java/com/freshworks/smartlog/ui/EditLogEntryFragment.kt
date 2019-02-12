@@ -36,15 +36,15 @@ class EditLogEntryFragment : AddLogEntryFragment() {
         val logId = arguments?.getLong("logId")
 
         pos = arguments?.getInt("pos")!!
-         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
 
         toolbar_title.text = "Edit Log"
         var createdTime = 0L
-        viewModel!!.getLogDetails(logId!!).observe(this, Observer {
+        viewModel!!.onGetLogDetails().observe(this, Observer {
             logEntry = it
             title_editText.setText(it!!.title)
             description_editText.setText(it.description)
-
+            logbook_title.text = "Log Book : ".plus(logEntry!!.logBookTitle)
             createdTime = it.createdTime
             val timeTemp = it.dateTime.split(" ")
             dateButton.text = timeTemp[0]
@@ -61,7 +61,11 @@ class EditLogEntryFragment : AddLogEntryFragment() {
             })
 
         })
+        viewModel!!.getLogDetails(logId!!)
 
+        toolbar.setNavigationOnClickListener {
+            activity!!.onBackPressed()
+        }
         dateButton.setOnClickListener {
             val datePicker = DatePickerFragment()
             datePicker.setTargetFragment(this, 1001)

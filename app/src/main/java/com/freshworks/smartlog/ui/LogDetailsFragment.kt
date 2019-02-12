@@ -42,7 +42,7 @@ class LogDetailsFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         toolbar_title.text = "Log Details"
-        viewModel.getLogDetails(logId!!).observe(this , Observer {
+        viewModel.onGetLogDetails().observe(this , Observer {
             title.text = it!!.title
             description.text = it?.description
             val timeTemp = it?.dateTime.split(" ")
@@ -52,6 +52,7 @@ class LogDetailsFragment : Fragment() {
             logEntry = it
 
         })
+        viewModel.getLogDetails(logId)
 
         viewModel.getImageFiles(logId).observe(this, Observer {
             val list = it as ArrayList<LogAttachments>
@@ -93,16 +94,7 @@ class LogDetailsFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == 1111){
-            viewModel.getLogDetails(logId).observe(this , Observer {
-                title.text = it!!.title
-                description.text = it?.description
-                val timeTemp = it?.dateTime.split(" ")
-                dateButton.text = timeTemp[0]
-                timeButton.text = timeTemp[1]
-                logBook_title_content.text = it!!.logBookTitle
-                logEntry = it
-
-            })
+            viewModel.getLogDetails(logId)
         }
     }
 

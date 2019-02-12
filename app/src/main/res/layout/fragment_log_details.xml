@@ -52,10 +52,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_below="@+id/appbar"
+                android:padding="10dp">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:orientation="vertical"
-                  android:layout_below="@+id/appbar"
-                  android:padding="10dp"
                   android:background="@android:color/white">
 
         <TextView android:layout_width="match_parent"
@@ -146,8 +147,12 @@
 
         </LinearLayout>
 
-        <ImageView
-                android:id="@+id/imageView" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <ImageView android:layout_width="100dp" android:layout_height="100dp"
+                   android:id="@+id/imageView"
+                   android:layout_marginLeft="22dp"
+                   android:layout_marginTop="15dp"/>
+
     </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

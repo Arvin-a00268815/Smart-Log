@@ -132,7 +132,12 @@ class NewListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                 val logEntryViewHolder = holder as LogEntryViewHolder
                 val logEntry = arraylist[position] as LogEntry
                 logEntryViewHolder.titleTextView.text = logEntry.title
-                logEntryViewHolder.descriptionTextView.text = logEntry.description
+                if(logEntry.description.isEmpty()){
+                    logEntryViewHolder.descriptionTextView.text = "-"
+                }else{
+                    logEntryViewHolder.descriptionTextView.text = logEntry.description
+                }
+
                 logEntryViewHolder.dateTextView.text = logEntry.dateTime
                 logEntryViewHolder.containerLayout.setOnClickListener {
                     logEntryListener?.showLogDetails(logEntry.logId)
