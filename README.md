@@ -52,7 +52,7 @@ and which can provide easy navigation of images and download option too.
 
 4. Only one attachment image can be shown in each row of the log entry
 
-5. Above all, the cloud storage can be provide using Google's Firebase cloud storage which requires some initially setup 
+5. Above all, the cloud storage can be provided using Google's Firebase cloud storage which requires some initial setup 
 and implementation
 
 ----------
