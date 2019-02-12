@@ -488,23 +488,23 @@ class MainActivityTest2 {
         )
         appCompatButton5.perform(scrollTo(), click())
 
-        val textView7 = onView(
-            allOf(
-                withId(R.id.logEntry_title), withText("entry1"),
-                childAtPosition(
-                    allOf(
-                        withId(R.id.container_layout),
-                        childAtPosition(
-                            IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java),
-                            0
-                        )
-                    ),
-                    0
-                ),
-                isDisplayed()
-            )
-        )
-        textView7.check(matches(withText("entry1")))
+//        val textView7 = onView(
+//            allOf(
+//                withId(R.id.logEntry_title), withText("entry1"),
+//                childAtPosition(
+//                    allOf(
+//                        withId(R.id.container_layout),
+//                        childAtPosition(
+//                            IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java),
+//                            0
+//                        )
+//                    ),
+//                    0
+//                ),
+//                isDisplayed()
+//            )
+//        )
+//        textView7.check(matches(withText("entry1")))
     }
 
     private fun childAtPosition(
