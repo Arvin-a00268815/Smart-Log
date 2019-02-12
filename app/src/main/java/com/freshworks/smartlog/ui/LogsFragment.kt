@@ -18,14 +18,15 @@ import kotlinx.android.synthetic.main.fragment_list.*
 /**
  * Created by arvin-2009 on Feb 2019.
  */
-class LogsFragment : LogBooksFragment() {
+class LogsFragment : ParentFragment() {
 
     var logBookTitle  = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         help.visibility = View.GONE
         empty_textview.setText(R.string.no_log_entries)
-        super.onViewCreated(view, savedInstanceState)
+
 
         logBookTitle = arguments?.getString("logBookTitle")!!
         toolbar_title.text = logBookTitle
