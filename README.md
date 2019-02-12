@@ -11,13 +11,20 @@ View Model is created for the entire app which handles communication.
 
 
 1. User can add a LOGBOOK with unique name and every logbook contains LOG ENTRIES 
+
 2. One can fill in a log entry with mandatory title and optional description and images
+
 3. Every log entry is stored in accordance with the date of creation
+
 4. All log entries can be edited 
+
 5. One can move log from one logbook to another
+
 6. Delete of logbook and log entries are allowed. Once a logbook is deleted all its log entries are deleted.
+
 7. A log book can be converted to pdf, this option is provided in each row of the logbook 
 and pdf conversion is done using iText library
+
 8. A log entry can contain images. To pick images a third party libraray is used ie "MediaPickerLib"
 
 RecyclerView is used to list LogBooks and on selection of every logBook again a list of Log Entries are shown with title and 
@@ -29,6 +36,27 @@ The database contains 3 tables ie LogBook, Log entry and Log attachments.
 
 Database architecture
 [https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png](https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png)
+
+---------
+
+If more time is available, 
+
+1. Removal and addition of more images can be done using recycler view with horizontal orientation 
+and which can provide easy navigation of immages and download option too.
+
+2. Clip drawings created by user can be implemented
+
+3. Exported pdf contains only text, but images can be added
+
+4. Only one attachment image can be shown in each row of the log entry
+
+5. Most of all, the cloud storage can be provide using Google's Firebase storage which requires some initially setup 
+and implementation
+
+----------
+
+Android automation test case is created for basic functionalities to check for operations
+like add, view and edit using espresso. 
 
 
 
