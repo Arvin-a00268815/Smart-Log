@@ -1,5 +1,11 @@
 # Smart Log
 
+SmartLog is a simple mobile application that allows a user to record thoughts, ideas, reminders,
+or anything they choose. Each entry includes a title and some text, as well as an optional image
+or drawing. The user can collect these entries and convert them into a document that shows a
+history or story.
+
+--------------
 The development process begins with the MVVM pattern in which user interaction happens in the UI (View) and I have used a single activity 
 and only a single instance exists throughout the app and every page is a fragment. 
 
