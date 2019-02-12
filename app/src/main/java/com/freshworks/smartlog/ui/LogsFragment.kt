@@ -74,12 +74,13 @@ class LogsFragment : ParentFragment() {
 
         adapter.logEntryListener = object : NewListAdapter.LogEntryListener {
 
-            override fun showLogDetails(id : Long) {
+            override fun showLogDetails(id : Long, pos : Int) {
 
                 val logDetailsfragment = LogDetailsFragment()
-                logDetailsfragment.setTargetFragment(this@LogsFragment, 2001)
+                logDetailsfragment.setTargetFragment(this@LogsFragment, 1222)
                 val bundle = Bundle()
                 bundle.putLong("id", id)
+                bundle.putInt("pos", pos)
                 logDetailsfragment.arguments = bundle
                 (activity as MainActivity).loadFragment(logDetailsfragment, "logDetails")
             }
@@ -146,7 +147,7 @@ class LogsFragment : ParentFragment() {
                 adapter.notifyItemInserted(0)
                 recycler_view.scrollToPosition(0)
                 checkEmptyState()
-            }else if( requestCode == 1222){ // delete
+            }else if( requestCode == 1222){ // move & delete
 
                 val pos = data!!.getIntExtra("pos", -1)
                 adapter.removeAt(pos)

@@ -35,8 +35,10 @@ class LogDetailsFragment : Fragment() {
     }
 
     var logId = 0L
+    var pos = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-         logId = arguments?.getLong("id")!!
+        logId = arguments?.getLong("id")!!
+        pos = arguments?.getInt("id")!!
 
         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         toolbar_title.text = "Log Details"
@@ -64,6 +66,9 @@ class LogDetailsFragment : Fragment() {
 
         viewModel.onDeleteLog().observe(this, Observer {
 
+            val intent = Intent()
+            intent.putExtra("pos", pos)
+            targetFragment?.onActivityResult(1222, Activity.RESULT_OK,  intent)
                 activity!!.onBackPressed()
         })
 

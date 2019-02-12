@@ -32,7 +32,7 @@ class NewListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         fun saveAsPDF(logBook: LogBook, pos : Int)
     }
     interface LogEntryListener{
-        fun showLogDetails(id : Long)
+        fun showLogDetails(id : Long, pos : Int)
     }
 
     interface LogMoveListener{
@@ -141,7 +141,7 @@ class NewListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
                 logEntryViewHolder.dateTextView.text = logEntry.dateTime
                 logEntryViewHolder.containerLayout.setOnClickListener {
-                    logEntryListener?.showLogDetails(logEntry.logId)
+                    logEntryListener?.showLogDetails(logEntry.logId, logEntryViewHolder.adapterPosition)
                 }
 
                 logEntryViewHolder.moreActionView.setOnClickListener {
