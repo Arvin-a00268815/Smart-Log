@@ -32,6 +32,8 @@ some description and date of creation.
 
 All the icons used are android default icons found in [https://material.io/tools/icons/?style=baseline](https://material.io/tools/icons/?style=baseline)
 
+There is a help page which provides information about the app
+
 The database contains 3 tables ie LogBook, Log entry and Log attachments.
 
 Database architecture
