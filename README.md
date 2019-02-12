@@ -56,7 +56,7 @@ and implementation
 ----------
 
 Android automation test case is created for basic functionalities to check for operations
-like add, view and edit using espresso. 
+like add, view and edit using espresso. (MainActivityTest2.kt)
 
 
 
