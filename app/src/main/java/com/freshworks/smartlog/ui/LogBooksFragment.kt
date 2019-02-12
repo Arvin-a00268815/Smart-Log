@@ -74,16 +74,20 @@ open class LogBooksFragment : ParentFragment() {
 
         viewModel.onGetLogEntriesForPdf().observe(this@LogBooksFragment, Observer {
 
-            Util.createPdf(pdfLogBookTitile)
-            val hyphen = "--"
-            for (logEntry in it as ArrayList<LogEntry>){
-                val para = hyphen.plus(logEntry.title).plus("\n---").plus(logEntry.description).plus(" ").plus(logEntry.dateTime)
+            if(it!!.isNotEmpty()) {
+                Util.createPdf(pdfLogBookTitile)
+                val hyphen = "--"
+                for (logEntry in it as ArrayList<LogEntry>) {
+                    val para = hyphen.plus(logEntry.title).plus("\n---").plus(logEntry.description).plus(" ")
+                        .plus(logEntry.dateTime)
 
-                Util.addContent(para)
+                    Util.addContent(para)
+                }
+                Util.endContent()
+                Util.openFile(activity!!, pdfLogBookTitile)
+            }else{
+                Toast.makeText(context, "No log entries found to create pdf, please add some logs", Toast.LENGTH_LONG).show()
             }
-            Util.endContent()
-            Util.openFile(activity!!, pdfLogBookTitile)
-
         })
 
         adapter.logBookListener = object : NewListAdapter.LogBookListener {
