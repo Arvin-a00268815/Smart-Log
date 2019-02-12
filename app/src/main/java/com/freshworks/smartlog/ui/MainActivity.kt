@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
 import com.freshworks.smartlog.R
+import com.freshworks.smartlog.Util
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        permissionCheck()
+        Util.permissionCheck(this)
         val fragment = LogBooksFragment()
         val bundle = Bundle()
         bundle.putString("type", "Log Books")
@@ -52,21 +53,4 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
-
-
-    fun permissionCheck() : Boolean{
-        if (ContextCompat.checkSelfPermission(
-                this@MainActivity!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this!!,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                103
-            )
-            return false
-        }
-        return true
-    }
 }

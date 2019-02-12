@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.coursion.freakycoder.mediapicker.galleries.Gallery
 import com.freshworks.smartlog.R
+import com.freshworks.smartlog.Util
 import com.freshworks.smartlog.database.entity.LogAttachments
 import com.freshworks.smartlog.database.entity.LogEntry
 import com.freshworks.smartlog.viewmodel.MainActivityViewModel
@@ -106,11 +107,16 @@ open class AddLogEntryFragment : Fragment() {
         //permissionCheck()
         imageAttachment.setOnClickListener {
 
-            openGallery()
+            if(Util.permissionCheck(activity!!)) {
+                openGallery()
+            }
 
         }
         imageView.setOnClickListener {
-            openGallery()
+            if(Util.permissionCheck(activity!!)) {
+                openGallery()
+            }
+
         }
     }
 
