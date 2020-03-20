@@ -42,27 +42,3 @@ All the icons used are android default icons found in [https://material.io/tools
 There is a help page which provides information about the app
 
 The database contains 3 tables ie LogBook, Log entry and Log attachments.
-
-Database architecture
-[https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png](https://gitlab.com/arvinkumar/smart-log/blob/master/db_uml.png)
-
----------
-
-If more time is available,
-
-1. Removal and addition of more images can be done using recycler view with horizontal orientation and
-which can provide easy navigation of images and download option too.
-
-2. Clip drawings created by the user can be implemented
-
-3. Exported pdf contains only text, but images can be added
-
-4. Only one attachment image can be shown in each row of the log entry
-
-5. Above all, the cloud storage can be provided using Google's Firebase cloud storage which requires some initial setup
-and implementation
-
-----------
-
-Android automation test case is created for basic functionalities to check for operations
-like add, view, delete and edit log entry using espresso. (MainActivityTest2.kt)
