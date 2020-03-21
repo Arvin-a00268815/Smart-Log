@@ -1,9 +1,9 @@
-package com.freshworks.smartlog.database
+package com.freshworks.smartlog.repository.database
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import com.freshworks.smartlog.database.entity.LogAttachments
+import com.freshworks.smartlog.repository.entity.LogAttachments
 
 /**
  * Created by arvin-2009 on Feb 2019.

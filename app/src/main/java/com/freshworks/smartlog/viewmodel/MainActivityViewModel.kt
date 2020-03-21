@@ -3,12 +3,11 @@ package com.freshworks.smartlog.viewmodel
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
-import com.freshworks.smartlog.database.DatabaseAccess
-import com.freshworks.smartlog.database.entity.LogAttachments
-import com.freshworks.smartlog.database.entity.LogBook
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.DatabaseAccess
+import com.freshworks.smartlog.repository.entity.LogAttachments
+import com.freshworks.smartlog.repository.entity.LogBook
+import com.freshworks.smartlog.repository.entity.LogEntry
 import java.text.SimpleDateFormat
-import java.time.Year
 import java.util.*
 import kotlin.collections.ArrayList
 

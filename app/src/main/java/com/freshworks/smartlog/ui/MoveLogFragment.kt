@@ -13,8 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.freshworks.smartlog.R
-import com.freshworks.smartlog.database.entity.LogBook
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.entity.LogBook
+import com.freshworks.smartlog.repository.entity.LogEntry
 import com.freshworks.smartlog.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_move_log_layout.*
 import kotlinx.android.synthetic.main.fragment_move_log_layout.view.*

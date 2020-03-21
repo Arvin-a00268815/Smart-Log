@@ -1,4 +1,4 @@
-package com.freshworks.smartlog.database.entity
+package com.freshworks.smartlog.repository.entity
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey

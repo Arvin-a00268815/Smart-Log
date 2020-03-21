@@ -5,22 +5,13 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.freshworks.smartlog.R
 import com.freshworks.smartlog.Util
-import com.freshworks.smartlog.database.entity.LogBook
-import com.freshworks.smartlog.database.entity.LogEntry
-import io.reactivex.Completable
-import io.reactivex.CompletableObserver
-import io.reactivex.Maybe
-import io.reactivex.MaybeObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.freshworks.smartlog.repository.entity.LogBook
+import com.freshworks.smartlog.repository.entity.LogEntry
 import kotlinx.android.synthetic.main.fragment_list.*
-import java.util.concurrent.Callable
 import kotlin.collections.ArrayList
 
 

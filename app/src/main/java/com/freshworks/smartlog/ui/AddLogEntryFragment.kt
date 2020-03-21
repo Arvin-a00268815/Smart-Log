@@ -2,7 +2,6 @@ package com.freshworks.smartlog.ui
 
 import android.app.Activity
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -10,15 +9,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.coursion.freakycoder.mediapicker.galleries.Gallery
 import com.freshworks.smartlog.R
 import com.freshworks.smartlog.Util
-import com.freshworks.smartlog.database.entity.LogAttachments
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.entity.LogAttachments
 import com.freshworks.smartlog.viewmodel.MainActivityViewModel
 //import com.zhihu.matisse.Matisse
 //import com.zhihu.matisse.MimeType

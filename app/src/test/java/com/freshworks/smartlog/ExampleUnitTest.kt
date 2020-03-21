@@ -1,6 +1,5 @@
 package com.freshworks.smartlog
 
-import com.freshworks.smartlog.database.DatabaseAccess
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.entity.LogEntry
 import com.freshworks.smartlog.viewmodel.MainActivityViewModel
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver

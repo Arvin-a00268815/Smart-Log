@@ -12,8 +12,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.freshworks.smartlog.R
-import com.freshworks.smartlog.database.entity.LogBook
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.entity.LogBook
+import com.freshworks.smartlog.repository.entity.LogEntry
 import kotlinx.android.synthetic.main.row_log_book_item.view.*
 import kotlinx.android.synthetic.main.row_log_entry_item.view.*
 import kotlinx.android.synthetic.main.row_log_move_item.view.*

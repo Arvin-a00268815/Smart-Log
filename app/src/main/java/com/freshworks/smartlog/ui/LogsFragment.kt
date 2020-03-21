@@ -12,7 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.freshworks.smartlog.R
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.entity.LogEntry
 import kotlinx.android.synthetic.main.fragment_list.*
 
 /**

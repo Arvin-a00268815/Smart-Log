@@ -1,8 +1,7 @@
-package com.freshworks.smartlog.database
+package com.freshworks.smartlog.repository.database
 
 import android.arch.persistence.room.*
-import com.freshworks.smartlog.database.entity.LogBook
-import com.freshworks.smartlog.database.entity.LogEntry
+import com.freshworks.smartlog.repository.entity.LogBook
 
 /**
  * Created by arvin-2009 on Feb 2019.
