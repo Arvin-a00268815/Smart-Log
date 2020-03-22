@@ -2,7 +2,11 @@ package com.project.smartlog.viewmodel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
+import com.project.smartlog.Util
+import com.project.smartlog.repository.Repository
 import com.project.smartlog.repository.database.DatabaseAccess
 import com.project.smartlog.repository.entity.LogAttachments
 import com.project.smartlog.repository.entity.LogBook
@@ -15,7 +19,7 @@ import kotlin.collections.ArrayList
 /**
  * Created by arvin-2009 on Feb 2019.
  */
-class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
+class MainActivityViewModel(val repository: Repository) : ViewModel() {
 
     private val mutableLiveDataLogEntries = MutableLiveData<List<LogEntry>>()
 
@@ -28,86 +32,91 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     private var liveDataLogId = MutableLiveData<Long>()
 
+    private val deleteLogLiveData = MutableLiveData<Int>()
+
+    private val deleteBookLiveData = MutableLiveData<Int>()
+
+    private val filesLiveData = MutableLiveData<List<LogAttachments>>()
+
+    private val dateLiveDate = MutableLiveData<Long>()
+
+    private val mutableLiveDataDateTime = MutableLiveData<List<String>>()
+
+    private val mutableLiveDataLogEntriesPdf = MutableLiveData<List<LogEntry>>()
+    private val liveDataMoveLog = MutableLiveData<LogEntry>()
+
     fun getLogBooks(){
 
-        val list = DatabaseAccess.getAppDatabase(getApplication()).bookDao().getAllLogBooks()
-        mutableLiveDataLogBooks.postValue(list)
+        mutableLiveDataLogBooks.postValue(repository.getAllLogBooks())
     }
-    fun onGetLogBooks(): MutableLiveData<List<LogBook>> {
+    fun onGetLogBooks(): LiveData<List<LogBook>> {
         return mutableLiveDataLogBooks
     }
 
-    fun getLogBooksExcept(title: String): MutableLiveData<List<LogBook>> {
+    fun getLogBooksExcept(title: String): LiveData<List<LogBook>> {
 
-        val list = DatabaseAccess.getAppDatabase(getApplication()).bookDao().getLogBooksExcept(title)
-        mutableLiveDataLogBooks.postValue(list)
+        mutableLiveDataLogBooks.postValue(repository.getLogBooksExcept(title))
         return mutableLiveDataLogBooks
     }
-    fun onGetLogEntries(): MutableLiveData<List<LogEntry>> {
+    fun onGetLogEntries(): LiveData<List<LogEntry>> {
 
         return mutableLiveDataLogEntries
     }
     fun getLogEntries(logBookTitle: String){
 
-        val list = DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogEntries(logBookTitle)
-        mutableLiveDataLogEntries.postValue(list)
+        mutableLiveDataLogEntries.postValue(repository.getLogEntries(logBookTitle))
     }
-    private val mutableLiveDataLogEntriesPdf = MutableLiveData<List<LogEntry>>()
-    fun onGetLogEntriesForPdf(): MutableLiveData<List<LogEntry>> {
+    fun onGetLogEntriesForPdf(): LiveData<List<LogEntry>> {
 
         return mutableLiveDataLogEntriesPdf
     }
     fun getLogEntriesForPdf(logBookTitle: String){
 
-        val list = DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogEntries(logBookTitle)
+        val list = repository.getLogEntries(logBookTitle)
         mutableLiveDataLogEntriesPdf.postValue(list)
     }
-    fun onGetLogDetails(): MutableLiveData<LogEntry> {
+    fun onGetLogDetails(): LiveData<LogEntry> {
         return mutableLiveDataLogEntry
     }
     fun getLogDetails(id: Long){
 
-        val logEntry = DatabaseAccess.getAppDatabase(getApplication()).logDao().getLogDetails(id)
+        val logEntry = repository.getLogDetails(id)
         mutableLiveDataLogEntry.postValue(logEntry)
     }
 
-    fun onUpdateLogDetails(): MutableLiveData<LogEntry> {
+    fun onUpdateLogDetails(): LiveData<LogEntry> {
         return mutableLiveDataLogEntry
     }
 
     fun updateLogDescription(desc: String, id: Long) {
-        DatabaseAccess.getAppDatabase(getApplication()).logDao().updateDescription(desc, id)
+        repository.updateDescription(desc, id)
         liveDataLogId.postValue(id)
 
     }
 
 
     fun updateLogDetails(logEntry: LogEntry) {
-        logEntry.dateTime = convertTimeToDateString(logEntry.createdTime)
-        DatabaseAccess.getAppDatabase(getApplication()).logDao().updateLogDetails(logEntry)
+        logEntry.dateTime = Util.convertTimeToDateString(logEntry.createdTime)
+        repository.updateLogDetails(logEntry)
         mutableLiveDataLogEntry.postValue(logEntry)
     }
 
-    private val liveDataMoveLog = MutableLiveData<LogEntry>()
     fun moveLog(logEntry: LogEntry, logBookTitle: String) {
         logEntry.logBookTitle = logBookTitle
-        DatabaseAccess.getAppDatabase(getApplication()).logDao().updateLogDetails(logEntry)
+       repository.updateLogDetails(logEntry)
         liveDataMoveLog.postValue(logEntry)
     }
 
-    fun onMoveLog() : MutableLiveData<LogEntry>{
+    fun onMoveLog() : LiveData<LogEntry>{
         return liveDataMoveLog
     }
 
-    fun onInsertLogBook(): MutableLiveData<LogBook> {
-
-
+    fun onInsertLogBook(): LiveData<LogBook> {
         return mutableLiveDataLogBook
     }
 
-    private val mutableLiveDataDateTime = MutableLiveData<List<String>>()
 
-    fun getDateTime(): MutableLiveData<List<String>> {
+    fun getDateTime(): LiveData<List<String>> {
         val date = Calendar.getInstance().time
         val timeInMillSecs = Calendar.getInstance().timeInMillis
         val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US)
@@ -118,13 +127,13 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         return mutableLiveDataDateTime
     }
 
-    fun getDateTime(createdTime: String): MutableLiveData<List<String>> {
+    fun getDateTime(createdTime: String): LiveData<List<String>> {
         val list = createdTime.split(" ")
         mutableLiveDataDateTime.postValue(list)
         return mutableLiveDataDateTime
     }
 
-    fun getDateTime(milliSeconds: Long): MutableLiveData<List<String>> {
+    fun getDateTime(milliSeconds: Long): LiveData<List<String>> {
 
 
         val calendar = Calendar.getInstance()
@@ -142,9 +151,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     }
 
 
-    private val dateLiveDate = MutableLiveData<Long>()
 
-    fun getDate(year: Int, month: Int, day: Int, hour: Int, minute: Int): MutableLiveData<Long> {
+    fun getDate(year: Int, month: Int, day: Int, hour: Int, minute: Int): LiveData<Long> {
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
@@ -160,78 +168,58 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun insertLogBook(title: String, createdTime: String) {
 
         val logBook = LogBook(title = title, createdTime = createdTime)
-
-        DatabaseAccess.getAppDatabase(getApplication()).bookDao().insertLogBook(logBook)
+        repository.insertLogBook(logBook)
         mutableLiveDataLogBook.postValue(logBook)
 
     }
 
 
-    fun onInsertLogEntry(): MutableLiveData<LogEntry> {
+    fun onInsertLogEntry(): LiveData<LogEntry> {
         return mutableLiveDataLogEntry
     }
 
     fun insertLogEntry(logBookId: String, title: String, desc: String, milliSeconds: Long) {
-
-
         val logEntry = LogEntry(logBookId, title, milliSeconds)
         logEntry.description = desc
-        logEntry.dateTime = convertTimeToDateString(milliSeconds)
-
-
-        val id = DatabaseAccess.getAppDatabase(getApplication()).logDao().insert(logEntry) as Long
-
-        logEntry.logId = id
+        logEntry.dateTime = Util.convertTimeToDateString(milliSeconds)
+        logEntry.logId = repository.insert(logEntry)
         mutableLiveDataLogEntry.postValue(logEntry)
     }
 
-    fun onInsertFiles(): MutableLiveData<Boolean> {
+    fun onInsertFiles(): LiveData<Boolean> {
 
         return mutableLiveDataLogAttachments
     }
 
-    fun insertFiles(list: ArrayList<LogAttachments>) {
-        val size = DatabaseAccess.getAppDatabase(getApplication()).attachments().insertFilePath(list)
-
+    fun insertFiles(list: List<LogAttachments>) {
+       repository.insertFilePath(list)
         mutableLiveDataLogAttachments.postValue(true)
     }
 
-    private val filesLiveData = MutableLiveData<List<LogAttachments>>()
 
-    fun getImageFiles(logId: Long): MutableLiveData<List<LogAttachments>> {
-        val list = DatabaseAccess.getAppDatabase(getApplication()).attachments().getAttachments(logId)
-
+    fun getImageFiles(logId: Long): LiveData<List<LogAttachments>> {
+        val list = repository.getAttachments(logId)
         filesLiveData.postValue(list)
         return filesLiveData
     }
 
-    val deleteBookLiveData = MutableLiveData<Int>()
     fun deleteLogBook(logBook: LogBook, pos : Int) {
-        DatabaseAccess.getAppDatabase(getApplication()).bookDao().deleteLogBook(logBook)
+        repository.deleteLogBook(logBook)
         deleteBookLiveData.postValue(pos)
     }
-    fun onDeleteBook(): MutableLiveData<Int> {
+    fun onDeleteBook(): LiveData<Int> {
         return deleteBookLiveData
     }
 
 
-    val deleteLogLiveData = MutableLiveData<Int>()
     fun deleteLog(logEntry: LogEntry, pos : Int) {
-        DatabaseAccess.getAppDatabase(getApplication()).logDao().deleteLog(logEntry)
+        repository.deleteLog(logEntry)
         deleteLogLiveData.postValue(pos)
     }
-    fun onDeleteLog(): MutableLiveData<Int> {
+    fun onDeleteLog(): LiveData<Int> {
         return deleteLogLiveData
     }
 
-    fun convertTimeToDateString(milliSeconds: Long) : String{
-        val cal = Calendar.getInstance()
-        cal.timeInMillis = milliSeconds
 
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US)
-        val strDate = dateFormat.format(cal.time)
-
-        return strDate
-    }
 
 }

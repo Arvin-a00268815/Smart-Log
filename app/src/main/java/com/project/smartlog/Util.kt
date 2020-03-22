@@ -19,6 +19,8 @@ import com.itextpdf.text.pdf.draw.LineSeparator
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by arvin-2009 on Feb 2019.
@@ -102,6 +104,16 @@ class Util {
                 return false
             }
             return true
+        }
+
+        fun convertTimeToDateString(milliSeconds: Long) : String{
+            val cal = Calendar.getInstance()
+            cal.timeInMillis = milliSeconds
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US)
+            val strDate = dateFormat.format(cal.time)
+
+            return strDate
         }
     }
 }

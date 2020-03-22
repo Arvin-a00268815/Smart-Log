@@ -40,7 +40,7 @@ class LogDetailsFragment : Fragment() {
         logId = arguments?.getLong("id")!!
         pos = arguments?.getInt("id")!!
 
-        viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        viewModel = ViewModelProviders.of(requireActivity())[MainActivityViewModel::class.java]
         toolbar_title.text = "Log Details"
         viewModel.onGetLogDetails().observe(this , Observer {
             title.text = it!!.title

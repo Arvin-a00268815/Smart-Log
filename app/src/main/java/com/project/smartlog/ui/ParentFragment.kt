@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.project.smartlog.R
+import com.project.smartlog.repository.Repository
+import com.project.smartlog.repository.database.DatabaseAccess
 import com.project.smartlog.viewmodel.MainActivityViewModel
+import com.project.smartlog.viewmodel.MainViewModelFactory
 import kotlinx.android.synthetic.main.fragment_list.*
 
 /**
@@ -26,12 +29,21 @@ open class ParentFragment : Fragment() {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val databaseAccess = DatabaseAccess.getAppDatabase(requireActivity())
+        val repository = Repository(databaseAccess)
+        val factory = MainViewModelFactory(repository)
+
+        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MainActivityViewModel::class.java)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler_view.layoutManager = LinearLayoutManager(context)
         adapter = NewListAdapter()
         recycler_view.adapter = adapter
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
     }
 

@@ -26,7 +26,7 @@ class AddLogBookDialogFragment : AppCompatDialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
+        val mainActivityViewModel = ViewModelProviders.of(requireActivity()).get(MainActivityViewModel::class.java)
 
 
         mainActivityViewModel.onInsertLogBook().observe(this, android.arch.lifecycle.Observer {

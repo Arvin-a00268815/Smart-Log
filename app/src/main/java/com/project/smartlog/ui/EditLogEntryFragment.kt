@@ -36,7 +36,7 @@ class EditLogEntryFragment : AddLogEntryFragment() {
         val logId = arguments?.getLong("logId")
 
         pos = arguments?.getInt("pos")!!
-        viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        viewModel = ViewModelProviders.of(requireActivity())[MainActivityViewModel::class.java]
 
         toolbar_title.text = "Edit Log"
         var createdTime = 0L

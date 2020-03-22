@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    public fun loadFragment(fragment : Fragment, flag : String, isAddToStack : Boolean = true){
+     fun loadFragment(fragment : Fragment, flag : String, isAddToStack : Boolean = true){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager?.beginTransaction()
         fragmentTransaction?.add(R.id.content_frame, fragment)

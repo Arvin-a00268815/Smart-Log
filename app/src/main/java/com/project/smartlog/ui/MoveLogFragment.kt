@@ -42,7 +42,7 @@ class MoveLogFragment : BottomSheetDialogFragment(){
 
         recycler_view.addItemDecoration(dividerDecoration)
 
-        val viewModel = ViewModelProviders.of(this)
+        val viewModel = ViewModelProviders.of(requireActivity())
             .get(MainActivityViewModel::class.java)
 
         viewModel.getLogBooksExcept(logEntry!!.logBookTitle).observe(this, Observer {

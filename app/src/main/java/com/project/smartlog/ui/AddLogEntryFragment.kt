@@ -44,7 +44,7 @@ open class AddLogEntryFragment : Fragment() {
 
         logbook_title.text = "Log Book : ".plus(logBookTitle)
 
-        val viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        val viewModel = ViewModelProviders.of(requireActivity())[MainActivityViewModel::class.java]
         toolbar_title.text = "Add Log"
 
         viewModel.getDateTime().observe(this, Observer {
