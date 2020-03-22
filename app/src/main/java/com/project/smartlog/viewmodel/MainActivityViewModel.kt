@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.project.smartlog.Util
+import com.project.smartlog.repository.IRepository
 import com.project.smartlog.repository.Repository
 import com.project.smartlog.repository.database.DatabaseAccess
 import com.project.smartlog.repository.entity.LogAttachments
@@ -19,7 +20,7 @@ import kotlin.collections.ArrayList
 /**
  * Created by arvin-2009 on Feb 2019.
  */
-class MainActivityViewModel(val repository: Repository) : ViewModel() {
+class MainActivityViewModel(val repository: IRepository) : ViewModel() {
 
     private val mutableLiveDataLogEntries = MutableLiveData<List<LogEntry>>()
 
@@ -182,7 +183,7 @@ class MainActivityViewModel(val repository: Repository) : ViewModel() {
         val logEntry = LogEntry(logBookId, title, milliSeconds)
         logEntry.description = desc
         logEntry.dateTime = Util.convertTimeToDateString(milliSeconds)
-        logEntry.logId = repository.insert(logEntry)
+        logEntry.logId = repository.insertLogEntry(logEntry)
         mutableLiveDataLogEntry.postValue(logEntry)
     }
 

@@ -71,7 +71,7 @@ open class AddLogEntryFragment : Fragment() {
                 val intent = Intent()
                 intent.putExtra("logEntry", it)
                 targetFragment!!.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-                activity!!.onBackPressed()
+//                activity!!.onBackPressed()
 
             })
 
