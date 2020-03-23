@@ -57,11 +57,12 @@ class LogDetailsFragment : Fragment() {
         viewModel.getImageFiles(logId).observe(this, Observer {
             val list = it as ArrayList<LogAttachments>
 
-            for (attachement in list ){
+            list.forEach { it ->
 
-                val bm = BitmapFactory.decodeStream(activity!!.contentResolver.openInputStream(Uri.parse(attachement.path)))
+                val bm = BitmapFactory.decodeStream(activity!!.contentResolver.openInputStream(Uri.parse(it.path)))
                 imageView.setImageBitmap(bm)
             }
+
         })
 
         viewModel.onDeleteLog().observe(this, Observer {

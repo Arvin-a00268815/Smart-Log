@@ -31,12 +31,8 @@ open class ParentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val databaseAccess = DatabaseAccess.getAppDatabase(requireActivity())
-        val repository = Repository(databaseAccess)
-        val factory = MainViewModelFactory(repository)
-
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MainActivityViewModel::class.java)
+        retainInstance = true;
+        viewModel = ViewModelProviders.of(requireActivity()).get(MainActivityViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
