@@ -1,6 +1,7 @@
 package com.project.smartlog.ui
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity;
@@ -8,19 +9,39 @@ import android.view.Menu
 import android.view.MenuItem
 import com.project.smartlog.R
 import com.project.smartlog.Util
+import com.project.smartlog.di.DaggerAppComponent
+import com.project.smartlog.repository.IRepository
 import com.project.smartlog.repository.Repository
 import com.project.smartlog.repository.database.DatabaseAccess
 import com.project.smartlog.viewmodel.MainActivityViewModel
 import com.project.smartlog.viewmodel.MainViewModelFactory
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        private lateinit var context: Context
+        fun getInstance() : Context {
+            return context
+        }
+    }
+
+
+    @Inject
+    lateinit var repository : Repository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        context = this
         setContentView(R.layout.activity_main)
 
-        val databaseAccess = DatabaseAccess.getAppDatabase(this)
-        val repository = Repository(databaseAccess)
+
+        val component = DaggerAppComponent
+            .builder()
+            .build()
+        component.inject(this)
+
+
         val factory = MainViewModelFactory(repository)
 
         val viewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel::class.java)

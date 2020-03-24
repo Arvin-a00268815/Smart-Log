@@ -4,8 +4,9 @@ import com.project.smartlog.repository.database.DatabaseAccess
 import com.project.smartlog.repository.entity.LogAttachments
 import com.project.smartlog.repository.entity.LogBook
 import com.project.smartlog.repository.entity.LogEntry
+import javax.inject.Inject
 
-class Repository(private val databaseAccess: DatabaseAccess) : IRepository {
+class Repository @Inject constructor(private val databaseAccess: DatabaseAccess) : IRepository {
 
     override fun getAllLogBooks() : List<LogBook>{
         return databaseAccess.bookDao().getAllLogBooks()
